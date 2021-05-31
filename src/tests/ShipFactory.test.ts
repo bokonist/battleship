@@ -1,4 +1,4 @@
-import { ShipFactory } from "../game/factories";
+import { ShipFactory } from "../game/factories/ShipFactory";
 import { Orientation } from "../game/typeDefinitions.d";
 
 it("default ship settings", () => {
@@ -45,4 +45,13 @@ it("default ship settings", () => {
   expect(ship4.body).toEqual(expect.arrayContaining(expected4));
   expect(ship4.hitArray.length).toBe(0);
   expect(ship4.isSunk()).toBe(false);
+});
+
+it("out of bounds ship settings", () => {
+  let ship1 = ShipFactory(-22, [-11, -50], Orientation.SIDEWAYS);
+  expect(ship1.body.length).toBe(1);
+  const expected1 = [[0, 0]];
+  expect(ship1.body).toEqual(expect.arrayContaining(expected1));
+  expect(ship1.hitArray.length).toBe(0);
+  expect(ship1.isSunk()).toBe(false);
 });

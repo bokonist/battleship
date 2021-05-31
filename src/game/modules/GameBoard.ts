@@ -4,9 +4,9 @@ import {
   Orientation,
   ShipType,
   CellType,
-} from "./typeDefinitions.d";
+} from "../typeDefinitions.d";
 
-const GameBoardModule = (() => {
+const GameBoard = (() => {
   const GRID_ROWS = 50;
   const GRID_COLUMNS = 50;
   let ships: ShipType[] = []; //array to hold the ships on the board
@@ -169,4 +169,4 @@ const GameBoardModule = (() => {
   };
 })();
 
-export { GameBoardModule };
+export { GameBoard };

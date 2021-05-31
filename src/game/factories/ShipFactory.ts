@@ -1,4 +1,4 @@
-import { Orientation } from "./typeDefinitions.d";
+import { Orientation } from "../typeDefinitions.d";
 
 const ShipFactory = (
   length: number,
