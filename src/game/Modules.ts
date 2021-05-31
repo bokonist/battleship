@@ -1,23 +1,30 @@
+import {
+  HitResults,
+  cellStates,
+  Orientation,
+  ShipType,
+  CellType,
+} from "./typeDefinitions.d";
+
 const GameBoardModule = (() => {
   const GRID_ROWS = 50;
   const GRID_COLUMNS = 50;
   let ships: ShipType[] = []; //array to hold the ships on the board
-  const operations = [
+  const neighbors = [
     [-1, -1],
-    [-1, 0],
-    [-1, 1],
     [0, -1],
-    [0, 0],
-    [0, 1],
     [1, -1],
     [1, 0],
-    [1, 0],
-  ]; // utility operations array to use to calculate 8 neighbors of a given cell
-  let grid: cellType[][] = [];
+    [1, 1],
+    [0, 1],
+    [-1, 1],
+    [-1, 0],
+  ]; // utility neighbors array to use to calculate 8 neighbors of a given cell
+  let grid: CellType[][] = [];
   const resetGrid = () => {
     grid = [];
     for (let i = 0; i < GRID_ROWS; i++) {
-      const row: cellType[] = [];
+      const row: CellType[] = [];
       for (let j = 0; j < GRID_COLUMNS; j++) {
         const pos: [number, number] = [i, j]; // required for casting [i,j] to a typescipt tuple
         row.push({
@@ -54,10 +61,10 @@ const GameBoardModule = (() => {
     }
   };
 
-  const deepClone = (grid: cellType[][]) => {
-    let newGrid: cellType[][] = [];
-    grid.forEach((row: cellType[], i: number) => {
-      let col: cellType[] = [];
+  const deepClone = (grid: CellType[][]) => {
+    let newGrid: CellType[][] = [];
+    grid.forEach((row: CellType[], i: number) => {
+      let col: CellType[] = [];
       row.forEach((cell, j) => {
         col.push(grid[i][j]);
       });
@@ -66,69 +73,92 @@ const GameBoardModule = (() => {
     });
     return newGrid;
   };
-  const checkAndPlaceShip = (grid: cellType[][], ship: ShipType) => {
+  const checkNeighborsForConflict = (
+    grid: CellType[][],
+    currentCell: [number, number],
+    shipID: number
+  ) => {
+    let conflicted = false;
+    neighbors.forEach((neighbor) => {
+      let neighborI = neighbor[0] + currentCell[0];
+      let neighborJ = neighbor[1] + currentCell[1];
+      if (
+        neighborI > 0 &&
+        neighborJ > 0 &&
+        neighborI < GRID_ROWS &&
+        neighborJ < GRID_COLUMNS &&
+        grid[neighborI][neighborJ].shipID !== 0 &&
+        grid[neighborI][neighborJ].shipID !== shipID
+      ) {
+        //neighbor is within grid bounds, but is conflicting with another placed ship
+        conflicted = true;
+      }
+    });
+    return conflicted;
+  };
+  const checkAndPlaceShip = (grid: CellType[][], ship: ShipType) => {
     let gridClone = deepClone(grid);
-    let currentCell: [number, number] = ship.position;
+    let currentCell: [number, number] = [0, 0];
+    currentCell[0] = ship.position[0];
+    currentCell[1] = ship.position[1];
+    let isShipPlaceable = true;
     if (ship.orientation === Orientation.SIDEWAYS) {
       for (let i = 0; i < ship.length; i++) {
         //trying to place the entire ship cell by cell
-        currentCell[0] = ship.position[0] + i;
-        currentCell[1] = ship.position[1];
-        operations.forEach((operation) => {
-          //checking all neighbors of this cell
-          let newI = operation[0] + currentCell[0];
-          let newJ = operation[1] + currentCell[1];
-          if (newI > 0 && newJ > 0 && newI < GRID_ROWS && newJ < GRID_COLUMNS) {
-            //neightbor is within bounds
-            if (
-              gridClone[newI][newJ].shipID === 0 ||
-              gridClone[newI][newJ].shipID === ship.id
-            ) {
-              // empty neighbour or occupied by part of the ship we're trying to place
-              gridClone[currentCell[0]][currentCell[1]].shipID = ship.id;
-            } else {
-              throw new Error(
-                "Ship cannot be placed due to space conflict with another ship"
-              );
-            }
-          }
-        });
+        currentCell[0] = ship.body[i][0];
+        currentCell[1] = ship.body[i][1];
+        if (
+          currentCell[0] < 0 ||
+          currentCell[0] >= GRID_ROWS ||
+          currentCell[1] < 0 ||
+          currentCell[1] >= GRID_COLUMNS
+        ) {
+          //ship's body is out of bounds
+          isShipPlaceable = false;
+          return isShipPlaceable;
+        }
+        if (!checkNeighborsForConflict(gridClone, currentCell, ship.id)) {
+          // no conflicts with neighboring cells
+          gridClone[currentCell[0]][currentCell[1]].shipID = ship.id;
+        } else {
+          isShipPlaceable = false;
+          return isShipPlaceable;
+        }
       }
     } else if (ship.orientation === Orientation.UPRIGHT) {
       for (let i = 0; i < ship.length; i++) {
         //trying to place the entire ship cell by cell
-        currentCell[0] = ship.position[0];
-        currentCell[1] = ship.position[1] + i;
-        operations.forEach((operation) => {
-          //checking all neighbors of this cell
-          let newI = operation[0] + currentCell[0];
-          let newJ = operation[1] + currentCell[1];
-          if (newI > 0 && newJ > 0 && newI < GRID_ROWS && newJ < GRID_COLUMNS) {
-            //neightbor is within bounds
-            if (
-              gridClone[newI][newJ].shipID === 0 ||
-              gridClone[newI][newJ].shipID === ship.id
-            ) {
-              // empty neighbour or occupied by part of the ship we're trying to place
-              gridClone[currentCell[0]][currentCell[1]].shipID = ship.id;
-            } else {
-              throw new Error(
-                "Ship cannot be placed due to space conflict with another ship"
-              );
-            }
-          }
-        });
+        currentCell[0] = ship.body[i][0];
+        currentCell[1] = ship.body[i][1];
+        if (
+          currentCell[0] < 0 ||
+          currentCell[0] >= GRID_ROWS ||
+          currentCell[1] < 0 ||
+          currentCell[1] >= GRID_COLUMNS
+        ) {
+          //ship's body is out of bounds
+          isShipPlaceable = false;
+          return isShipPlaceable;
+        }
+        if (!checkNeighborsForConflict(gridClone, currentCell, ship.id)) {
+          // no conflicts with neighboring cells
+          gridClone[currentCell[0]][currentCell[1]].shipID = ship.id;
+        } else {
+          isShipPlaceable = false;
+          return isShipPlaceable;
+        }
       }
     }
-    grid = gridClone;
+    if (isShipPlaceable) {
+      grid = gridClone;
+    }
+    return isShipPlaceable;
   };
   const placeNewShip = (ship: ShipType) => {
-    try {
-      checkAndPlaceShip(grid, ship);
+    if (checkAndPlaceShip(grid, ship)) {
       ships.push(ship);
       return true; //success
-    } catch (e) {
-      console.log(e.message);
+    } else {
       return false; //failure
     }
   };
