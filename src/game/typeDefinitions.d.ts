@@ -2,7 +2,7 @@ enum Orientation {
   SIDEWAYS,
   UPRIGHT,
 }
-interface ShipType {
+type ShipType = {
   id: number;
   length: number;
   position: [number, number];
@@ -10,7 +10,7 @@ interface ShipType {
   orientation: Orientation.UPRIGHT | Orientation.SIDEWAYS;
   isSunk: () => boolean;
   hitArray: [number, number][];
-}
+};
 
 enum cellStates {
   INITIAL,
@@ -18,11 +18,11 @@ enum cellStates {
   DESTROYED,
 }
 
-interface cellType {
+type CellType = {
   position: [number, number];
   shipID: number;
   cellState: cellStates.INITIAL | cellStates.MISSED | cellStates.DESTROYED;
-}
+};
 
 enum HitResults {
   INVALID_POSITION,
@@ -30,4 +30,4 @@ enum HitResults {
   FAILURE,
 }
 
-//export { HitResults, cellStates, cellType, ShipType, Orientation };
+export { HitResults, cellStates, Orientation, ShipType, CellType };
