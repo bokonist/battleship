@@ -10,6 +10,15 @@ const GameBoard = (() => {
   const GRID_ROWS = 50;
   const GRID_COLUMNS = 50;
   let ships: ShipType[] = []; //array to hold the ships on the board
+  const pushShip = (ship: ShipType) => {
+    ships.push(ship);
+  };
+  const clearShips = () => {
+    ships = [];
+  };
+  const getShips = () => {
+    return ships;
+  };
   const neighbors = [
     [-1, -1],
     [0, -1],
@@ -92,6 +101,7 @@ const GameBoard = (() => {
       ) {
         //neighbor is within grid bounds, but is conflicting with another placed ship
         conflicted = true;
+        return conflicted;
       }
     });
     return conflicted;
@@ -156,7 +166,7 @@ const GameBoard = (() => {
   };
   const placeNewShip = (ship: ShipType) => {
     if (checkAndPlaceShip(grid, ship)) {
-      ships.push(ship);
+      pushShip(ship);
       return true; //success
     } else {
       return false; //failure
@@ -166,6 +176,9 @@ const GameBoard = (() => {
   return {
     placeNewShip,
     hit,
+    getShips,
+    resetGrid,
+    clearShips,
   };
 })();
 
