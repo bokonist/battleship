@@ -60,6 +60,10 @@ const GameBoard = (() => {
         successfulHit = true;
         damagedShip = ship;
         ship.hitArray.push(position);
+        grid[position[0]][position[1]].cellState = cellStates.DESTROYED;
+        if (ship.isSunk()) {
+          destroyNeighborCells(position);
+        }
       }
       return damagedShip;
     }, null);
@@ -172,6 +176,11 @@ const GameBoard = (() => {
       return false; //failure
     }
   };
+  const removeShip = (shipID: number) => {
+    ships = ships.filter((ship) => {
+      return !(ship.id === shipID);
+    });
+  };
 
   return {
     placeNewShip,
@@ -179,6 +188,7 @@ const GameBoard = (() => {
     getShips,
     resetGrid,
     clearShips,
+    removeShip,
   };
 })();
 
