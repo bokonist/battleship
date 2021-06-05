@@ -1,6 +1,6 @@
 import { GameBoard } from "../game/modules/GameBoard";
 import { ShipFactory } from "../game/factories/ShipFactory";
-import { Orientation } from "../game/typeDefinitions.d";
+import { HitResults, Orientation } from "../game/typeDefinitions.d";
 
 afterEach(() => {
   GameBoard.resetGrid();
@@ -120,10 +120,20 @@ describe("ship hit tests", () => {
     expect(GameBoard.placeNewShip(ship)).toBe(true);
     expect(GameBoard.aliveShipCount()).toBe(1);
     GameBoard.hit(ship.body[0]);
+    expect(GameBoard.aliveShipCount()).toBe(1);
     GameBoard.hit(ship.body[1]);
     GameBoard.hit(ship.body[2]);
     expect(GameBoard.aliveShipCount()).toBe(0);
     expect(GameBoard.safeCellCount()).toBe(2500 - 3 - 5);
+  });
+});
+describe("missed hit tests", () => {
+  it("empty board hits", () => {
+    expect(GameBoard.hit([0, 0])).toBe(HitResults.MISSED);
+    expect(GameBoard.hit([0, 0])).toBe(HitResults.INVALID_POSITION);
+    expect(GameBoard.hit([0, 1])).toBe(HitResults.MISSED);
+    expect(GameBoard.hit([0, 2])).toBe(HitResults.MISSED);
+    expect(GameBoard.hit([0, 3])).toBe(HitResults.MISSED);
   });
 });
 it("placeholder", () => {});
