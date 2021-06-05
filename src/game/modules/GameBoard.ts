@@ -46,7 +46,22 @@ const GameBoard = (() => {
     }
   };
   resetGrid();
-
+  const destroyNeighborCells = (ship: ShipType) => {
+    ship.neighbors.forEach((neighbor) => {
+      let currentNeighbor: number[] = neighbor.split(",").map((stringIndex) => {
+        return Number(stringIndex);
+      });
+      if (
+        currentNeighbor[0] >= 0 &&
+        currentNeighbor[0] <= GRID_ROWS &&
+        currentNeighbor[1] >= 0 &&
+        currentNeighbor[1] <= GRID_COLUMNS
+      ) {
+        grid[currentNeighbor[0]][currentNeighbor[1]].cellState =
+          cellStates.MISSED;
+      }
+    });
+  };
   const hit = (position: [number, number]) => {
     let successfulHit = false;
     if (
@@ -62,7 +77,7 @@ const GameBoard = (() => {
         ship.hitArray.push(position);
         grid[position[0]][position[1]].cellState = cellStates.DESTROYED;
         if (ship.isSunk()) {
-          destroyNeighborCells(position);
+          destroyNeighborCells(ship);
         }
       }
       return damagedShip;
@@ -73,7 +88,26 @@ const GameBoard = (() => {
       return HitResults.FAILURE;
     }
   };
-
+  const safeCellCount = () => {
+    let count = 0;
+    grid.forEach((row) => {
+      row.forEach((cell) => {
+        if (cell.cellState === cellStates.INITIAL) {
+          count++;
+        }
+      });
+    });
+    return count;
+  };
+  const aliveShipCount = () => {
+    let count = 0;
+    ships.forEach((ship) => {
+      if (!ship.isSunk()) {
+        count++;
+      }
+    });
+    return count;
+  };
   const deepClone = (grid: CellType[][]) => {
     let newGrid: CellType[][] = [];
     grid.forEach((row: CellType[], i: number) => {
@@ -189,6 +223,8 @@ const GameBoard = (() => {
     resetGrid,
     clearShips,
     removeShip,
+    safeCellCount,
+    aliveShipCount,
   };
 })();
 
