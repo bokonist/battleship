@@ -7,6 +7,7 @@ type ShipType = {
   length: number;
   position: [number, number];
   body: [number, number][];
+  neighbors: string[];
   orientation: Orientation.UPRIGHT | Orientation.SIDEWAYS;
   isSunk: () => boolean;
   hitArray: [number, number][];
@@ -23,11 +24,22 @@ type CellType = {
   shipID: number;
   cellState: cellStates.INITIAL | cellStates.MISSED | cellStates.DESTROYED;
 };
+type EnemyCellType = {
+  position: [number, number];
+  cellState: cellStates.INITIAL | cellStates.MISSED | cellStates.DESTROYED;
+};
 
 enum HitResults {
   INVALID_POSITION,
   SUCCESS,
-  FAILURE,
+  MISSED,
 }
 
-export { HitResults, cellStates, Orientation, ShipType, CellType };
+export {
+  HitResults,
+  cellStates,
+  Orientation,
+  ShipType,
+  CellType,
+  EnemyCellType,
+};

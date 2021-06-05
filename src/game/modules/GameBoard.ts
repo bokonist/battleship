@@ -4,6 +4,7 @@ import {
   Orientation,
   ShipType,
   CellType,
+  EnemyCellType,
 } from "../typeDefinitions.d";
 
 const GameBoard = (() => {
@@ -30,6 +31,7 @@ const GameBoard = (() => {
     [-1, 0],
   ]; // utility neighbors array to use to calculate 8 neighbors of a given cell
   let grid: CellType[][] = [];
+
   const resetGrid = () => {
     grid = [];
     for (let i = 0; i < GRID_ROWS; i++) {
@@ -46,6 +48,18 @@ const GameBoard = (() => {
     }
   };
   resetGrid();
+  const getViewForEnemy = () => {
+    // returns a grid that is to be displayed to the enemy, ship info is not present
+    let enemyView: EnemyCellType[][] = [];
+    let enemyViewRow: EnemyCellType[];
+    grid.forEach((row) => {
+      enemyViewRow = row.map((cell) => {
+        return { position: cell.position, cellState: cell.cellState };
+      });
+      enemyView.push(enemyViewRow);
+    });
+    return enemyView;
+  };
   const destroyNeighborCells = (ship: ShipType) => {
     ship.neighbors.forEach((neighbor) => {
       let currentNeighbor: number[] = neighbor.split(",").map((stringIndex) => {
@@ -85,7 +99,8 @@ const GameBoard = (() => {
     if (successfulHit) {
       return HitResults.SUCCESS;
     } else {
-      return HitResults.FAILURE;
+      grid[position[0]][position[1]].cellState = cellStates.MISSED;
+      return HitResults.MISSED;
     }
   };
   const safeCellCount = () => {
@@ -225,6 +240,7 @@ const GameBoard = (() => {
     removeShip,
     safeCellCount,
     aliveShipCount,
+    getViewForEnemy,
   };
 })();
 
