@@ -84,6 +84,47 @@ it("gameboard - clear ships", () => {
   GameBoard.clearShips();
   expect(GameBoard.getShips().length).toBe(0);
 });
-
+describe("ship hit tests", () => {
+  it("size 3 ship upright hit tests", () => {
+    let ship = ShipFactory(3, [25, 25], Orientation.UPRIGHT);
+    expect(GameBoard.placeNewShip(ship)).toBe(true);
+    expect(GameBoard.aliveShipCount()).toBe(1);
+    GameBoard.hit(ship.body[0]);
+    GameBoard.hit(ship.body[1]);
+    GameBoard.hit(ship.body[2]);
+    expect(GameBoard.aliveShipCount()).toBe(0);
+    expect(GameBoard.safeCellCount()).toBe(2500 - 3 - 12);
+  });
+  it("size 3 ship sideways hit tests", () => {
+    let ship = ShipFactory(3, [25, 25], Orientation.SIDEWAYS);
+    expect(GameBoard.placeNewShip(ship)).toBe(true);
+    expect(GameBoard.aliveShipCount()).toBe(1);
+    GameBoard.hit(ship.body[0]);
+    GameBoard.hit(ship.body[1]);
+    GameBoard.hit(ship.body[2]);
+    expect(GameBoard.aliveShipCount()).toBe(0);
+    expect(GameBoard.safeCellCount()).toBe(2500 - 3 - 12);
+  });
+  it("size 3 ship, edge of board, sideways hit tests", () => {
+    let ship = ShipFactory(3, [0, 0], Orientation.SIDEWAYS);
+    expect(GameBoard.placeNewShip(ship)).toBe(true);
+    expect(GameBoard.aliveShipCount()).toBe(1);
+    GameBoard.hit(ship.body[0]);
+    GameBoard.hit(ship.body[1]);
+    GameBoard.hit(ship.body[2]);
+    expect(GameBoard.aliveShipCount()).toBe(0);
+    expect(GameBoard.safeCellCount()).toBe(2500 - 3 - 5);
+  });
+  it("size 3 ship, edge of board, upright hit tests", () => {
+    let ship = ShipFactory(3, [0, 0], Orientation.UPRIGHT);
+    expect(GameBoard.placeNewShip(ship)).toBe(true);
+    expect(GameBoard.aliveShipCount()).toBe(1);
+    GameBoard.hit(ship.body[0]);
+    GameBoard.hit(ship.body[1]);
+    GameBoard.hit(ship.body[2]);
+    expect(GameBoard.aliveShipCount()).toBe(0);
+    expect(GameBoard.safeCellCount()).toBe(2500 - 3 - 5);
+  });
+});
 it("placeholder", () => {});
 it("placeholder2", () => {});
