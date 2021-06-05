@@ -55,3 +55,28 @@ it("out of bounds ship settings", () => {
   expect(ship1.hitArray.length).toBe(0);
   expect(ship1.isSunk()).toBe(false);
 });
+describe("ship neighbor count tests", () => {
+  it("ship neighbor count ship size 1", () => {
+    let ship1 = ShipFactory(1, [11, 5], Orientation.SIDEWAYS);
+    expect(ship1.body.length).toBe(1);
+    expect(ship1.hitArray.length).toBe(0);
+    expect(ship1.isSunk()).toBe(false);
+    expect(ship1.neighbors.size).toBe(8);
+  });
+
+  it("ship neighbor count sideways", () => {
+    let ship1 = ShipFactory(3, [11, 5], Orientation.SIDEWAYS);
+    expect(ship1.body.length).toBe(3);
+    expect(ship1.hitArray.length).toBe(0);
+    expect(ship1.isSunk()).toBe(false);
+    expect(ship1.neighbors.size).toBe(12);
+  });
+
+  it("ship neighbor count upright", () => {
+    let ship1 = ShipFactory(3, [11, 5], Orientation.UPRIGHT);
+    expect(ship1.body.length).toBe(3);
+    expect(ship1.hitArray.length).toBe(0);
+    expect(ship1.isSunk()).toBe(false);
+    expect(ship1.neighbors.size).toBe(12);
+  });
+});
