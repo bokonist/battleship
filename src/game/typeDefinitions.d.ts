@@ -7,7 +7,7 @@ type ShipType = {
   length: number;
   position: [number, number];
   body: [number, number][];
-  neighbors: string[];
+  neighbors: Set<string>;
   orientation: Orientation.UPRIGHT | Orientation.SIDEWAYS;
   isSunk: () => boolean;
   hitArray: [number, number][];
