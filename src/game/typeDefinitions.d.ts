@@ -24,10 +24,6 @@ type CellType = {
   shipID: number;
   cellState: cellStates.INITIAL | cellStates.MISSED | cellStates.DESTROYED;
 };
-type EnemyCellType = {
-  position: [number, number];
-  cellState: cellStates.INITIAL | cellStates.MISSED | cellStates.DESTROYED;
-};
 
 enum HitResults {
   INVALID_POSITION,
