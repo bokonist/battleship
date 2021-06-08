@@ -31,11 +31,4 @@ enum HitResults {
   MISSED,
 }
 
-export {
-  HitResults,
-  cellStates,
-  Orientation,
-  ShipType,
-  CellType,
-  EnemyCellType,
-};
+export { HitResults, cellStates, Orientation, ShipType, CellType };
