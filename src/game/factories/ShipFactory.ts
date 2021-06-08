@@ -55,7 +55,7 @@ const ShipFactory = (
     return shipHitArray.length === length;
   };
   return {
-    id: Math.floor(Math.random() * 1000) + 1,
+    id: Math.floor(Math.random() * 100000) + 1,
     length: shipLength,
     position: shipPosition,
     body: shipBody,
