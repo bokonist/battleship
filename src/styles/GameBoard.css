@@ -1,0 +1,13 @@
+.App-dark .gameboard {
+  display: grid;
+  grid-template-columns: repeat(10, 3rem);
+  grid-template-rows: repeat(10, 3rem);
+  justify-items: center;
+  align-items: center;
+  width: 30rem;
+  height: 30rem;
+}
+.App-dark .gameboard-cell {
+  height: 3rem;
+  width: 3rem;
+}
