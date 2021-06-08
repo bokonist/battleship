@@ -24,11 +24,21 @@ type CellType = {
   shipID: number;
   cellState: cellStates.INITIAL | cellStates.MISSED | cellStates.DESTROYED;
 };
-
+type EnemyCellType = {
+  cellState: cellStates.INITIAL | cellStates.MISSED | cellStates.DESTROYED;
+};
 enum HitResults {
   INVALID_POSITION,
-  SUCCESS,
+  HIT,
+  HITANDSUNK,
   MISSED,
 }
 
-export { HitResults, cellStates, Orientation, ShipType, CellType };
+export {
+  HitResults,
+  cellStates,
+  Orientation,
+  ShipType,
+  CellType,
+  EnemyCellType,
+};

@@ -5,6 +5,7 @@ import {
   Orientation,
   ShipType,
   CellType,
+  EnemyCellType,
 } from "../typeDefinitions.d";
 
 const GameBoard = (() => {
@@ -20,6 +21,12 @@ const GameBoard = (() => {
   const getShips = () => {
     return ships;
   };
+  const getGrid = () => {
+    return grid;
+  };
+  const getEnemyGrid = () => {
+    return enemyGrid;
+  };
   const neighbors = [
     [-1, -1],
     [0, -1],
@@ -31,7 +38,7 @@ const GameBoard = (() => {
     [-1, 0],
   ]; // utility neighbors array to use to calculate 8 neighbors of a given cell
   let grid: CellType[][] = [];
-
+  let enemyGrid: EnemyCellType[][] = [];
   const resetGrid = () => {
     grid = [];
     for (let i = 0; i < GRID_ROWS; i++) {
@@ -46,15 +53,25 @@ const GameBoard = (() => {
       }
       grid.push(row);
     }
+    enemyGrid = [];
+    for (let i = 0; i < GRID_ROWS; i++) {
+      const row: EnemyCellType[] = [];
+      for (let j = 0; j < GRID_COLUMNS; j++) {
+        row.push({
+          cellState: cellStates.INITIAL,
+        });
+      }
+      enemyGrid.push(row);
+    }
   };
   resetGrid();
   const getViewForEnemy = () => {
     // returns a grid that is to be displayed to the enemy, ship info is not present
-    let enemyView: number[][] = [];
-    let enemyViewRow: number[];
+    let enemyView: EnemyCellType[][] = [];
+    let enemyViewRow: EnemyCellType[];
     grid.forEach((row) => {
       enemyViewRow = row.map((cell) => {
-        return cell.cellState;
+        return { cellState: cell.cellState };
       });
       enemyView.push(enemyViewRow);
     });
@@ -78,6 +95,7 @@ const GameBoard = (() => {
   };
   const hit = (position: [number, number]) => {
     let successfulHit = false;
+    let hitResult = HitResults.MISSED;
     if (
       grid[position[0]][position[1]].cellState === cellStates.MISSED ||
       grid[position[0]][position[1]].cellState === cellStates.DESTROYED
@@ -90,17 +108,19 @@ const GameBoard = (() => {
         damagedShip = ship;
         ship.hitArray.push(position);
         grid[position[0]][position[1]].cellState = cellStates.DESTROYED;
+        hitResult = HitResults.HIT;
         if (ship.isSunk()) {
           destroyNeighborCells(ship);
+          hitResult = HitResults.HITANDSUNK;
         }
       }
       return damagedShip;
     }, null);
     if (successfulHit) {
-      return HitResults.SUCCESS;
+      return hitResult;
     } else {
       grid[position[0]][position[1]].cellState = cellStates.MISSED;
-      return HitResults.MISSED;
+      return hitResult;
     }
   };
   const safeCellCount = () => {
@@ -271,6 +291,8 @@ const GameBoard = (() => {
   };
 
   return {
+    getGrid,
+    getEnemyGrid,
     placeNewShip,
     hit,
     getShips,
