@@ -1,3 +1,4 @@
+import { ShipFactory } from "../factories/ShipFactory";
 import {
   HitResults,
   cellStates,
@@ -7,8 +8,8 @@ import {
 } from "../typeDefinitions.d";
 
 const GameBoard = (() => {
-  const GRID_ROWS = 50;
-  const GRID_COLUMNS = 50;
+  const GRID_ROWS = 10;
+  const GRID_COLUMNS = 10;
   let ships: ShipType[] = []; //array to hold the ships on the board
   const pushShip = (ship: ShipType) => {
     ships.push(ship);
@@ -134,6 +135,45 @@ const GameBoard = (() => {
     });
     return newGrid;
   };
+  const randomSetup = () => {
+    let ship: ShipType | undefined = ShipFactory(
+      4,
+      [1, 1],
+      Orientation.UPRIGHT
+    );
+    let shipArray1 = [
+      ShipFactory(4, [1, 1], Orientation.UPRIGHT),
+      ShipFactory(3, [1, 4], Orientation.SIDEWAYS),
+      ShipFactory(3, [3, 5], Orientation.SIDEWAYS),
+      ShipFactory(2, [6, 2], Orientation.SIDEWAYS),
+      ShipFactory(2, [5, 6], Orientation.SIDEWAYS),
+      ShipFactory(2, [7, 5], Orientation.UPRIGHT),
+      ShipFactory(1, [7, 8], Orientation.SIDEWAYS),
+      ShipFactory(1, [8, 1], Orientation.SIDEWAYS),
+      ShipFactory(1, [4, 3], Orientation.SIDEWAYS),
+      ShipFactory(1, [1, 8], Orientation.SIDEWAYS),
+    ];
+    let shipArray2 = [
+      ShipFactory(4, [1, 5], Orientation.SIDEWAYS),
+      ShipFactory(3, [1, 1], Orientation.UPRIGHT),
+      ShipFactory(3, [3, 3], Orientation.SIDEWAYS),
+      ShipFactory(2, [5, 6], Orientation.SIDEWAYS),
+      ShipFactory(2, [5, 1], Orientation.SIDEWAYS),
+      ShipFactory(2, [5, 4], Orientation.UPRIGHT),
+      ShipFactory(1, [8, 1], Orientation.SIDEWAYS),
+      ShipFactory(1, [8, 3], Orientation.SIDEWAYS),
+      ShipFactory(1, [8, 7], Orientation.SIDEWAYS),
+      ShipFactory(1, [3, 7], Orientation.SIDEWAYS),
+    ];
+    let selectedArray =
+      Math.floor(Math.random() * 2) > 1 ? shipArray1 : shipArray2;
+    while (selectedArray.length > 0) {
+      ship = selectedArray.pop();
+      if (ship) placeNewShip(ship);
+    }
+    //console.log(grid.map((row) => row.map((cell) => cell.shipID)));
+    return true;
+  };
   const checkNeighborsForConflict = (
     grid: CellType[][],
     currentCell: [number, number],
@@ -240,6 +280,7 @@ const GameBoard = (() => {
     safeCellCount,
     aliveShipCount,
     getViewForEnemy,
+    randomSetup,
   };
 })();
 
