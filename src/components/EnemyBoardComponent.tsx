@@ -6,16 +6,23 @@ import MISSEDCELL from "../assets/missed_cell.png";
 
 import { useState } from "react";
 import { EnemyBoard } from "../game/modules/EnemyBoard";
+import { GameController } from "../game/modules/GameController";
 interface Props {}
 const EnemyBoardComponent: React.FC<Props> = (props) => {
   const [enemyBoard] = useState(EnemyBoard.getGrid());
-  const [isBoardActive, enableBoard] = useState(true);
+  const handleClick = (posX: number, posY: number) => {
+    GameController.sendAttack(posX, posY);
+  };
   return (
     <div className="gameboard">
       {enemyBoard.map((row, i) => {
         return row.map((cell, j) => {
           return (
-            <div key={`${i}-${j}`} data-position={`${i}-${j}`}>
+            <div
+              key={`${i}-${j}-${cell}`}
+              data-position={`${i}-${j}`}
+              onClick={() => handleClick(i, j)}
+            >
               {cell === cellStates.INITIAL ? (
                 <img
                   alt="inital cell"

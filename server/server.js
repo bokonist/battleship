@@ -29,19 +29,31 @@ io.on("connection", (socket) => {
     if (connections[i] === null) {
       playerIndex = Number(i);
       connections[i] = socket.id;
-
+      if (i === "1") {
+        // both client connected, send them the enemy player's ID
+        io.to(connections[1]).emit("enemy-details", connections[0]);
+        io.to(connections[0]).emit("enemy-details", connections[1]);
+      }
       console.log("client connected ", connections);
       break;
     }
   }
-
   socket.emit("connection-details", Number(playerIndex + 1));
   if (playerIndex !== -1)
     console.log(`Player ${Number(playerIndex) + 1} has connected`);
   else {
     return;
   }
-  socket.on("sendAttack", () => {
-    console.log(socket.id, "just sent an attack");
+  socket.on("sendAttack", (position) => {
+    console.log(socket.id, "just sent an attack", position);
+    const enemyPlayerID =
+      connections[0] === socket.id ? connections[1] : connections[0];
+    io.to(enemyPlayerID).emit("receiveAttack", position);
+  });
+  socket.on("sendEnemyView", (enemyGrid) => {
+    console.log(`${socket.id} just send a new view for their enemy`);
+    const enemyPlayerID =
+      connections[0] === socket.id ? connections[1] : connections[0];
+    io.to(enemyPlayerID).emit("receiveEnemyView", enemyGrid);
   });
 });
