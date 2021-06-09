@@ -22,11 +22,7 @@ function App() {
       console.log(`You are ${socket.id} and your enemy is ${data}`);
     });
     socket.on("receiveAttack", (position) => {
-      let [x, y] = position.split(",");
-      console.log(x, y);
-      x = Number(x);
-      y = Number(y);
-      GameController.receiveAttack(x, y);
+      GameController.receiveAttack(position);
     });
     socket.on("receiveEnemyView", (enemyGrid) => {
       console.log(enemyGrid);
