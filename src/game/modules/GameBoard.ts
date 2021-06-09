@@ -91,7 +91,12 @@ const GameBoard = (() => {
       return HitResults.INVALID_POSITION;
     }
     ships.reduce((damagedShip: null | ShipType, ship) => {
-      if (ship.body.includes(position) && !ship.hitArray.includes(position)) {
+      // if (ship.body.includes(position) && !ship.hitArray.includes(position)) {
+      if (
+        deepIncludes(ship.body, position) &&
+        !deepIncludes(ship.hitArray, position)
+      ) {
+        console.log(ship, `contains position`, position, `it's a hit!`);
         successfulHit = true;
         damagedShip = ship;
         ship.hitArray.push(position);
@@ -142,6 +147,15 @@ const GameBoard = (() => {
       col = [];
     });
     return newGrid;
+  };
+  const deepIncludes = (array1: [number, number][], item: [number, number]) => {
+    let result = false;
+    array1.forEach((entry) => {
+      if (entry[0] === item[0] && entry[1] === item[1]) {
+        result = true;
+      }
+    });
+    return result;
   };
   const randomSetup = () => {
     let ship: ShipType | undefined = ShipFactory(
