@@ -24,9 +24,6 @@ const GameBoard = (() => {
   const getGrid = () => {
     return grid;
   };
-  const getEnemyGrid = () => {
-    return enemyGrid;
-  };
   const neighbors = [
     [-1, -1],
     [0, -1],
@@ -38,7 +35,6 @@ const GameBoard = (() => {
     [-1, 0],
   ]; // utility neighbors array to use to calculate 8 neighbors of a given cell
   let grid: CellType[][] = [];
-  let enemyGrid: EnemyCellType[][] = [];
   const resetGrid = () => {
     grid = [];
     for (let i = 0; i < GRID_ROWS; i++) {
@@ -52,16 +48,6 @@ const GameBoard = (() => {
         });
       }
       grid.push(row);
-    }
-    enemyGrid = [];
-    for (let i = 0; i < GRID_ROWS; i++) {
-      const row: EnemyCellType[] = [];
-      for (let j = 0; j < GRID_COLUMNS; j++) {
-        row.push({
-          cellState: cellStates.INITIAL,
-        });
-      }
-      enemyGrid.push(row);
     }
   };
   resetGrid();
@@ -77,7 +63,10 @@ const GameBoard = (() => {
     });
     return enemyView;
   };
-  const destroyNeighborCells = (ship: ShipType) => {
+  const destroyNeighborCells = (shipPosition: [number, number]) => {
+    let ship = ships.filter(
+      (ship) => ship.id === grid[shipPosition[0]][shipPosition[1]].shipID
+    )[0];
     ship.neighbors.forEach((neighbor) => {
       let currentNeighbor: number[] = neighbor.split(",").map((stringIndex) => {
         return Number(stringIndex);
@@ -110,7 +99,7 @@ const GameBoard = (() => {
         grid[position[0]][position[1]].cellState = cellStates.DESTROYED;
         hitResult = HitResults.HIT;
         if (ship.isSunk()) {
-          destroyNeighborCells(ship);
+          destroyNeighborCells(ship.body[0]);
           hitResult = HitResults.HITANDSUNK;
         }
       }
@@ -292,7 +281,6 @@ const GameBoard = (() => {
 
   return {
     getGrid,
-    getEnemyGrid,
     placeNewShip,
     hit,
     getShips,
