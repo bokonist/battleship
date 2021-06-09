@@ -5,7 +5,6 @@ import {
   Orientation,
   ShipType,
   CellType,
-  EnemyCellType,
 } from "../typeDefinitions.d";
 
 const GameBoard = (() => {
@@ -53,11 +52,11 @@ const GameBoard = (() => {
   resetGrid();
   const getViewForEnemy = () => {
     // returns a grid that is to be displayed to the enemy, ship info is not present
-    let enemyView: EnemyCellType[][] = [];
-    let enemyViewRow: EnemyCellType[];
+    let enemyView: number[][] = [];
+    let enemyViewRow: number[];
     grid.forEach((row) => {
       enemyViewRow = row.map((cell) => {
-        return { cellState: cell.cellState };
+        return cell.cellState;
       });
       enemyView.push(enemyViewRow);
     });
