@@ -4,12 +4,13 @@ import INITALCELL from "../assets/initial_cell.png";
 import DESTROYEDCELL from "../assets/destroyed_cell.png";
 import MISSEDCELL from "../assets/missed_cell.png";
 
-import { useState } from "react";
 import { EnemyBoard } from "../game/modules/EnemyBoard";
 import { GameController } from "../game/modules/GameController";
-interface Props {}
+interface Props {
+  enemyBoardString: string;
+}
 const EnemyBoardComponent: React.FC<Props> = (props) => {
-  const [enemyBoard] = useState(EnemyBoard.getGrid());
+  const enemyBoard = EnemyBoard.getGrid();
   const handleClick = (posX: number, posY: number) => {
     GameController.sendAttack(posX, posY);
   };

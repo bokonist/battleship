@@ -8,9 +8,17 @@ import { GameBoardComponent } from "./GameBoardComponent";
 import { EnemyBoardComponent } from "./EnemyBoardComponent";
 import { GameInfo } from "./GameInfo";
 import { GameController } from "../game/modules/GameController";
+import { EnemyBoard } from "../game/modules/EnemyBoard";
+import { GameBoard } from "../game/modules/GameBoard";
 
 function App() {
   let [theme, setTheme] = useState(true);
+  let [enemyBoardString, setEnemyBoardString] = useState(
+    EnemyBoard.getGrid().toString()
+  );
+  let [boardString, setBoardString] = useState(
+    GameBoard.getViewForEnemy().toString()
+  );
   const toggleTheme = () => {
     setTheme(!theme);
   };
@@ -18,15 +26,16 @@ function App() {
     socket.on("connection-details", (playerNumber) => {
       console.log(`You are player #${playerNumber}`);
     });
-    socket.on("enemy-details", (data) => {
-      console.log(`You are ${socket.id} and your enemy is ${data}`);
+    socket.on("enemy-details", (enemyPlayerID) => {
+      console.log(`You are ${socket.id} and your enemy is ${enemyPlayerID}`);
     });
     socket.on("receiveAttack", (position) => {
       GameController.receiveAttack(position);
+      setBoardString(GameBoard.getViewForEnemy().toString());
     });
     socket.on("receiveEnemyView", (enemyGrid) => {
-      console.log(enemyGrid);
       GameController.updateEnemyBoard(enemyGrid);
+      setEnemyBoardString(EnemyBoard.getGrid().toString());
     });
     return () => {
       socket.close();
@@ -36,9 +45,11 @@ function App() {
     <ThemeContext.Provider value={theme}>
       <ThemeSwitcher toggleTheme={toggleTheme} />
       <div className={"App" + (theme ? "-dark" : "-light")}>
-        <GameBoardComponent></GameBoardComponent>
+        <GameBoardComponent boardString={boardString}></GameBoardComponent>
         <GameInfo></GameInfo>
-        <EnemyBoardComponent></EnemyBoardComponent>
+        <EnemyBoardComponent
+          enemyBoardString={enemyBoardString}
+        ></EnemyBoardComponent>
         <div className="attributions">
           Icons made by{" "}
           <a href="https://www.freepik.com" title="Freepik">

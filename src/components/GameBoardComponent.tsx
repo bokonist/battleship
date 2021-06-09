@@ -7,10 +7,12 @@ import DESTROYEDCELL from "../assets/destroyed_cell.png";
 import MISSEDCELL from "../assets/missed_cell.png";
 import SHIPCELL from "../assets/ship_cell.png";
 
-interface Props {}
+interface Props {
+  boardString: string;
+}
 
 const GameBoardComponent: React.FC<Props> = (props) => {
-  const [gameBoard] = useState(GameBoard.getGrid());
+  const gameBoard = GameBoard.getGrid();
   GameBoard.randomSetup();
   return (
     <div className="gameboard">
@@ -18,7 +20,7 @@ const GameBoardComponent: React.FC<Props> = (props) => {
         return row.map((cell, j) => {
           return (
             <div key={`${i}-${j}`} data-position={`${i}-${j}`}>
-              {cell.shipID > 0 ? (
+              {cell.shipID > 0 && cell.cellState !== cellStates.DESTROYED ? (
                 <img
                   alt="inital cell"
                   src={SHIPCELL}
