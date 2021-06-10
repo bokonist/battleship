@@ -4,7 +4,75 @@
 * {
   box-sizing: border-box;
 }
+.App-dark {
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgb(36, 36, 36) 100%
+  );
+}
+.App-dark .main-title-container {
+  height: 15vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
+  font-family: "Signika";
+  font-size: 4rem;
+  color: #a9a9a9;
+}
+.App-dark .main-body-container {
+  height: 85vh;
+  width: 100%;
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.attributions {
+  display: none;
+  background-color: transparent;
+}
+
+/*
+*
+*
+LIGHT THEMES
+*
+*
+*/
+
+.App-light {
+  background: rgb(170, 170, 170);
+  background: linear-gradient(
+    90deg,
+    rgba(170, 170, 170, 1) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+.App-light .main-title-container {
+  height: 15vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: "Signika";
+  font-size: 4rem;
+  color: #292929;
+}
+.App-light .main-body-container {
+  height: 85vh;
+  width: 100%;
+  color: rgb(0, 0, 0);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .attributions {
   display: none;
   background-color: transparent;
