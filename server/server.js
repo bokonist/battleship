@@ -11,6 +11,10 @@ const io = socketio(server, {
   },
 });
 
+setInterval(function () {
+  global.gc();
+  console.log("GC done");
+}, 1000 * 60);
 //serving static files
 //app.use(Express.static(Path.join(__dirname, "../build/")));
 
@@ -24,6 +28,7 @@ server.listen(PORT, () => {
 const connections = [null, null];
 let currentPlayer = null;
 io.on("connection", (socket) => {
+  let heartBeatTimeStamp = Date.now();
   console.log(socket.id);
   let playerIndex = -1;
   for (const i in connections) {
@@ -71,4 +76,26 @@ io.on("connection", (socket) => {
   socket.on("chat-message", (message) => {
     io.emit("chat-message", message);
   });
+  socket.on("heartbeat", () => {
+    heartBeatTimeStamp = Date.now();
+    //console.log(socket.id, " is alive");
+  });
+  let hearBeatCheck = setInterval(() => {
+    if (Date.now() > heartBeatTimeStamp + 5000) {
+      //no activity for the last 5 seconds
+      console.log(`${socket.id} did not give a heartbeat, disconnecting `);
+      socket.disconnect();
+      socket.removeAllListeners();
+      socket = null;
+      clearInterval(hearBeatCheck);
+      global.gc();
+    }
+  }, 10000);
+});
+io.on("disconnect", (socket) => {
+  console.log(`${socket.id} has disconnected`);
+  socket.disconnect();
+  socket.removeAllListeners();
+  socket = null;
+  global.gc();
 });

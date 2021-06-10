@@ -39,9 +39,12 @@ function App() {
       GameController.updateEnemyBoard(enemyGrid);
       setEnemyBoardString(EnemyBoard.getGrid().toString());
     });
-
+    const heartBeat = setInterval(() => {
+      socket.emit("heartbeat");
+    }, 5000);
     return () => {
       socket.close();
+      clearInterval(heartBeat);
     };
   }, []);
   return (
