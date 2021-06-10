@@ -37,9 +37,7 @@ function App() {
       GameController.updateEnemyBoard(enemyGrid);
       setEnemyBoardString(EnemyBoard.getGrid().toString());
     });
-    socket.on("server-message", (message) => {
-      console.log(message);
-    });
+
     return () => {
       socket.close();
     };
@@ -48,11 +46,14 @@ function App() {
     <ThemeContext.Provider value={theme}>
       <ThemeSwitcher toggleTheme={toggleTheme} />
       <div className={"App" + (theme ? "-dark" : "-light")}>
-        <GameBoardComponent boardString={boardString}></GameBoardComponent>
-        <GameInfo></GameInfo>
-        <EnemyBoardComponent
-          enemyBoardString={enemyBoardString}
-        ></EnemyBoardComponent>
+        <div className="main-title-container">BATTLESHIP</div>
+        <div className="main-body-container">
+          <GameBoardComponent boardString={boardString}></GameBoardComponent>
+          <GameInfo></GameInfo>
+          <EnemyBoardComponent
+            enemyBoardString={enemyBoardString}
+          ></EnemyBoardComponent>
+        </div>
         <div className="attributions">
           Icons made by{" "}
           <a href="https://www.freepik.com" title="Freepik">

@@ -55,7 +55,10 @@ io.on("connection", (socket) => {
       io.to(enemyPlayerID).emit("receiveAttack", position);
       currentPlayer = enemyPlayerID;
     } else {
-      io.to(socket.id).emit("server-message", "It's not your turn");
+      io.to(socket.id).emit("server-message", {
+        author: "Server",
+        message: "It's not your turn",
+      });
     }
   });
   socket.on("sendEnemyView", (enemyGrid) => {
@@ -63,5 +66,8 @@ io.on("connection", (socket) => {
     const enemyPlayerID =
       connections[0] === socket.id ? connections[1] : connections[0];
     io.to(enemyPlayerID).emit("receiveEnemyView", enemyGrid);
+  });
+  socket.on("chat-message", (message) => {
+    io.emit("chat-message", message);
   });
 });
