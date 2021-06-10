@@ -1,4 +1,4 @@
-import "../styles/GameInfo.css";
+import "../styles/GameChat.css";
 import socket from "../connections/socketConnection";
 import { useEffect, useRef, useState } from "react";
 
@@ -6,7 +6,7 @@ interface Props {
   userName: string;
   updateUserName: (newusername: string) => void;
 }
-const GameInfo: React.FC<Props> = (props) => {
+const GameChatComponent: React.FC<Props> = (props) => {
   const { userName, updateUserName } = props;
   const messageBoxRef = useRef<HTMLInputElement>(null);
   const userNameTextRef = useRef<HTMLInputElement>(null);
@@ -81,4 +81,4 @@ const GameInfo: React.FC<Props> = (props) => {
   );
 };
 
-export { GameInfo };
+export { GameChatComponent };

@@ -1,7 +1,6 @@
 import "../styles/GameBoard.css";
 import { cellStates } from "../game/typeDefinitions.d";
 import { GameBoard } from "../game/modules/GameBoard";
-import { useState } from "react";
 import INITALCELL from "../assets/initial_cell.png";
 import DESTROYEDCELL from "../assets/destroyed_cell.png";
 import MISSEDCELL from "../assets/missed_cell.png";

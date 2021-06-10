@@ -6,7 +6,7 @@ import socket from "../connections/socketConnection";
 
 import { GameBoardComponent } from "./GameBoardComponent";
 import { EnemyBoardComponent } from "./EnemyBoardComponent";
-import { GameInfo } from "./GameInfo";
+import { GameChatComponent } from "./GameChatComponent";
 import { GameController } from "../game/modules/GameController";
 import { EnemyBoard } from "../game/modules/EnemyBoard";
 import { GameBoard } from "../game/modules/GameBoard";
@@ -51,12 +51,12 @@ function App() {
         <div className="main-title-container">BATTLESHIP</div>
         <div className="main-body-container">
           <GameBoardComponent boardString={boardString}></GameBoardComponent>
-          <GameInfo
+          <GameChatComponent
             userName={userName}
             updateUserName={(newUserName) => {
               setUserName(newUserName);
             }}
-          ></GameInfo>
+          ></GameChatComponent>
           <EnemyBoardComponent
             enemyBoardString={enemyBoardString}
           ></EnemyBoardComponent>
