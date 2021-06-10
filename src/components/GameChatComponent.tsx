@@ -41,15 +41,26 @@ const GameChatComponent: React.FC<Props> = (props) => {
     }
   };
   const changeUserName = () => {
+    let newUserName = userNameTextRef.current
+      ? userNameTextRef.current.value
+      : userName;
     let message = { author: userName, message: "" };
-    if (userNameTextRef.current && userNameTextRef.current.value !== "") {
+    if (newUserName !== "" && newUserName !== "Server") {
       message = {
         author: userName,
-        message:
-          "I just changed my username to " + userNameTextRef.current.value,
+        message: "I just changed my username to " + newUserName,
       };
-      updateUserName(userNameTextRef.current.value);
+      updateUserName(newUserName);
       socket.emit("chat-message", message);
+    }
+    if (userNameTextRef.current) {
+      if (newUserName === "Server") {
+        socket.emit("chat-message", {
+          author: userName,
+          message:
+            "I tried changing my name to Server, but the server didn't let me, I'm a dummy",
+        });
+      }
       userNameTextRef.current.value = "";
     }
   };
