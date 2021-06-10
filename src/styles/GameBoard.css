@@ -11,7 +11,7 @@
 .App-dark .gameboard-cell {
   height: 3rem;
   width: 3rem;
-  border: 3px solid black;
+  border: 3px solid #868686;
   border-radius: 0.4rem;
 }
 .App-dark .initial-cell {

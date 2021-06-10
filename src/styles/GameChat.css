@@ -16,7 +16,9 @@
   justify-content: flex-start;
 }
 .App-dark .server-message {
-  background-color: rgba(255, 255, 255, 0.233);
+  background-color: rgba(255, 255, 255, 0.082);
+  border-radius: 1rem;
+  margin: 0.25rem 0rem;
 }
 .App-dark .server-message .message-author {
   color: rgb(224, 224, 224);
@@ -67,6 +69,8 @@
   background-color: rgb(0, 0, 0);
   color: rgb(199, 199, 199);
   font-size: 1.2rem;
+
+  font-family: "Montserrat", monospace;
   border: 2px solid rgb(187, 187, 187);
 }
 
@@ -100,6 +104,8 @@
   background-color: rgb(0, 0, 0);
   color: rgb(199, 199, 199);
   font-size: 1.2rem;
+  font-family: "Montserrat", monospace;
+
   border: 2px solid rgb(187, 187, 187);
 }
 
@@ -136,6 +142,8 @@ LIGHT THEMES
 }
 .App-light .server-message {
   background-color: rgba(24, 24, 24, 0.103);
+  border-radius: 1rem;
+  margin: 0.25rem 0rem;
 }
 .App-light .server-message .message-author {
   color: rgb(34, 34, 34);
@@ -186,6 +194,7 @@ LIGHT THEMES
   background-color: rgb(190, 190, 190);
   color: rgb(36, 36, 36);
   font-size: 1.2rem;
+  font-family: "Montserrat", monospace;
   border: 2px solid rgb(26, 26, 26);
 }
 
@@ -220,6 +229,8 @@ LIGHT THEMES
   background-color: rgb(190, 190, 190);
   color: rgb(36, 36, 36);
   font-size: 1.2rem;
+
+  font-family: "Montserrat", monospace;
   border: 2px solid rgb(26, 26, 26);
 }
 
