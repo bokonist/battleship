@@ -30,6 +30,19 @@ const GameInfo: React.FC<Props> = (props) => {
       messageBoxRef.current.value = "";
     }
   };
+  const changeUserName = () => {
+    let message = { author: userName, message: "" };
+    if (userNameTextRef.current && userNameTextRef.current.value !== "") {
+      message = {
+        author: userName,
+        message:
+          "I just changed my username to " + userNameTextRef.current.value,
+      };
+      updateUserName(userNameTextRef.current.value);
+      socket.emit("chat-message", message);
+      userNameTextRef.current.value = "";
+    }
+  };
   return (
     <div>
       <div className="chat-log">
@@ -58,12 +71,7 @@ const GameInfo: React.FC<Props> = (props) => {
         <button
           className="change-username-button"
           onClick={() => {
-            if (
-              userNameTextRef.current &&
-              userNameTextRef.current.value !== ""
-            ) {
-              updateUserName(userNameTextRef.current.value);
-            }
+            changeUserName();
           }}
         >
           Change Username
