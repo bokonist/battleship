@@ -2,9 +2,14 @@ import "../styles/GameInfo.css";
 import socket from "../connections/socketConnection";
 import { useEffect, useRef, useState } from "react";
 
-interface Props {}
+interface Props {
+  userName: string;
+  updateUserName: (newusername: string) => void;
+}
 const GameInfo: React.FC<Props> = (props) => {
+  const { userName, updateUserName } = props;
   const messageBoxRef = useRef<HTMLInputElement>(null);
+  const userNameTextRef = useRef<HTMLInputElement>(null);
   const [messageLog, setMessageLog] = useState([
     { author: "Server", message: "You can chat here!" },
   ]);
@@ -20,7 +25,7 @@ const GameInfo: React.FC<Props> = (props) => {
   const sendMessage = () => {
     let message: Object;
     if (messageBoxRef.current !== null && messageBoxRef.current.value !== "") {
-      message = { author: socket.id, message: messageBoxRef.current.value };
+      message = { author: userName, message: messageBoxRef.current.value };
       socket.emit("chat-message", message);
       messageBoxRef.current.value = "";
     }
@@ -46,6 +51,22 @@ const GameInfo: React.FC<Props> = (props) => {
           }}
         >
           Send message
+        </button>
+      </div>
+      <div className="update-username">
+        <input ref={userNameTextRef} type="text"></input>
+        <button
+          className="change-username-button"
+          onClick={() => {
+            if (
+              userNameTextRef.current &&
+              userNameTextRef.current.value !== ""
+            ) {
+              updateUserName(userNameTextRef.current.value);
+            }
+          }}
+        >
+          Change Username
         </button>
       </div>
     </div>

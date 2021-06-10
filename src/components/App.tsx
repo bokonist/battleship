@@ -13,6 +13,7 @@ import { GameBoard } from "../game/modules/GameBoard";
 
 function App() {
   let [theme, setTheme] = useState(true);
+  let [userName, setUserName] = useState("Player");
   let [enemyBoardString, setEnemyBoardString] = useState(
     EnemyBoard.getGrid().toString()
   );
@@ -25,6 +26,7 @@ function App() {
   useEffect(() => {
     socket.on("connection-details", (playerNumber) => {
       console.log(`You are player #${playerNumber}`);
+      setUserName("player#" + playerNumber);
     });
     socket.on("enemy-details", (enemyPlayerID) => {
       console.log(`You are ${socket.id} and your enemy is ${enemyPlayerID}`);
@@ -49,7 +51,12 @@ function App() {
         <div className="main-title-container">BATTLESHIP</div>
         <div className="main-body-container">
           <GameBoardComponent boardString={boardString}></GameBoardComponent>
-          <GameInfo></GameInfo>
+          <GameInfo
+            userName={userName}
+            updateUserName={(newUserName) => {
+              setUserName(newUserName);
+            }}
+          ></GameInfo>
           <EnemyBoardComponent
             enemyBoardString={enemyBoardString}
           ></EnemyBoardComponent>

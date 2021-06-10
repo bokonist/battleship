@@ -55,9 +55,10 @@ io.on("connection", (socket) => {
       io.to(enemyPlayerID).emit("receiveAttack", position);
       currentPlayer = enemyPlayerID;
     } else {
+      const otherPlayerIndex = connections[0] === socket.id ? "1" : "2";
       io.to(socket.id).emit("server-message", {
         author: "Server",
-        message: "It's not your turn",
+        message: "It's not your turn, player#" + otherPlayerIndex,
       });
     }
   });
