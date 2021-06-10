@@ -35,6 +35,10 @@ const GameChatComponent: React.FC<Props> = (props) => {
   const sendMessage = () => {
     let message: Object;
     if (messageBoxRef.current !== null && messageBoxRef.current.value !== "") {
+      if (messageBoxRef.current.value.length > 100) {
+        alert("Keep messaged under 100 characters");
+        return;
+      }
       message = { author: userName, message: messageBoxRef.current.value };
       socket.emit("chat-message", message);
       messageBoxRef.current.value = "";
