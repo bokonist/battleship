@@ -1,10 +1,7 @@
 import "../styles/GameBoard.css";
 import { cellStates } from "../game/typeDefinitions.d";
 import { GameBoard } from "../game/modules/GameBoard";
-import INITALCELL from "../assets/initial_cell.png";
 import DESTROYEDCELL from "../assets/destroyed_cell.png";
-import MISSEDCELL from "../assets/missed_cell.png";
-import SHIPCELL from "../assets/ship_cell.png";
 
 interface Props {
   boardString: string;
