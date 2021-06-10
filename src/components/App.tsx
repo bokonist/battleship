@@ -37,6 +37,9 @@ function App() {
       GameController.updateEnemyBoard(enemyGrid);
       setEnemyBoardString(EnemyBoard.getGrid().toString());
     });
+    socket.on("server-message", (message) => {
+      console.log(message);
+    });
     return () => {
       socket.close();
     };
