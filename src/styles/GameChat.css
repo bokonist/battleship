@@ -175,7 +175,7 @@ LIGHT THEMES
   border-radius: 0.5rem;
   margin: 0rem 0.5rem;
 
-  color: white;
+  color: rgb(32, 32, 32);
   font-size: 1.3rem;
 }
 .App-light .send-message-button {
