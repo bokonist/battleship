@@ -88,18 +88,27 @@ const GameChatComponent: React.FC<Props> = (props) => {
         })}
       </div>
       <div className="compose-message">
-        <input ref={messageBoxRef} type="text"></input>
+        <input
+          ref={messageBoxRef}
+          type="text"
+          className="message-input"
+          onSubmit={() => sendMessage()}
+        ></input>
         <button
           className="send-message-button"
           onClick={() => {
             sendMessage();
           }}
         >
-          Send message
+          Send
         </button>
       </div>
       <div className="update-username">
-        <input ref={userNameTextRef} type="text"></input>
+        <input
+          ref={userNameTextRef}
+          type="text"
+          className="username-input"
+        ></input>
         <button
           className="change-username-button"
           onClick={() => {

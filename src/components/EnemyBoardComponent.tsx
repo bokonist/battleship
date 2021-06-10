@@ -18,30 +18,32 @@ const EnemyBoardComponent: React.FC<Props> = (props) => {
     <div className="gameboard">
       {enemyBoard.map((row, i) => {
         return row.map((cell, j) => {
+          let className: string = "initial-cell gameboard-cell";
+          switch (cell) {
+            case cellStates.DESTROYED: {
+              className = "destroyed-cell gameboard-cell";
+              break;
+            }
+            case cellStates.MISSED: {
+              className = "missed-cell gameboard-cell";
+              break;
+            }
+            case cellStates.INITIAL: {
+              className = "initial-cell gameboard-cell clickable-cell";
+            }
+          }
+
           return (
             <div
-              key={`${i}-${j}-${cell}`}
+              key={`${i}-${j}`}
               data-position={`${i}-${j}`}
-              onClick={() => handleClick(i, j)}
+              className={className}
+              onClick={() => {
+                handleClick(i, j);
+              }}
             >
-              {cell === cellStates.INITIAL ? (
-                <img
-                  alt="inital cell"
-                  src={INITALCELL}
-                  className="gameboard-cell"
-                ></img>
-              ) : cell === cellStates.MISSED ? (
-                <img
-                  alt="inital cell"
-                  src={MISSEDCELL}
-                  className="gameboard-cell"
-                ></img>
-              ) : cell === cellStates.DESTROYED ? (
-                <img
-                  alt="inital cell"
-                  src={DESTROYEDCELL}
-                  className="gameboard-cell"
-                ></img>
+              {className === "destroyed-cell gameboard-cell" ? (
+                <img src={DESTROYEDCELL} alt="destroyed cell"></img>
               ) : null}
             </div>
           );

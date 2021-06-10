@@ -1,0 +1,17 @@
+.App-dark .clickable-cell {
+  cursor: pointer;
+}
+.App-dark .clickable-cell:hover {
+  transition: 200ms;
+  opacity: 0.8;
+}
+/*
+LIGHT THEME
+*/
+.App-light .clickable-cell {
+  cursor: pointer;
+}
+.App-light .clickable-cell:hover {
+  transition: 200ms;
+  background-color: rgb(145, 145, 145);
+}
