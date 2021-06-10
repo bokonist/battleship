@@ -27,6 +27,10 @@ const GameChatComponent: React.FC<Props> = (props) => {
       }
       setMessageLog([...messageLog, message]);
     });
+    return () => {
+      socket.off("chat-message");
+      socket.off("server-message");
+    };
   }, [messageLog]);
   const sendMessage = () => {
     let message: Object;
@@ -57,7 +61,9 @@ const GameChatComponent: React.FC<Props> = (props) => {
             <div
               key={index}
               className={
-                message.author === "Server" ? "server-message" : "user-message"
+                message.author === "Server"
+                  ? "server-message chat-message"
+                  : "user-message chat-message"
               }
             >
               <span className="message-author">{message.author}: </span>
