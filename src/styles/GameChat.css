@@ -1,0 +1,229 @@
+.App-dark .game-chat {
+  height: 30rem;
+  width: 40rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.App-dark .chat-log {
+  height: 90%;
+  width: 100%;
+  font-family: "Montserrat";
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.App-dark .server-message {
+  background-color: rgba(255, 255, 255, 0.233);
+}
+.App-dark .server-message .message-author {
+  color: rgb(224, 224, 224);
+}
+.App-dark .chat-message {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+.App-dark .message-author {
+  font-size: 1.5rem;
+  color: rgb(151, 151, 151);
+  font-weight: bolder;
+  padding: 0rem 1rem;
+}
+.App-dark .message-content {
+  font-size: 1.2rem;
+  overflow-wrap: break-word;
+}
+
+.App-dark .compose-message {
+  width: 100%;
+  padding: 0.5rem 0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.App-dark .message-input {
+  width: 85%;
+  height: 2.5rem;
+  background-color: rgba(235, 235, 235, 0.219);
+  border: 2px dashed rgba(255, 255, 255, 0.11);
+  border-radius: 0.5rem;
+  margin: 0rem 0.5rem;
+
+  color: white;
+  font-size: 1.3rem;
+}
+.App-dark .send-message-button {
+  cursor: pointer;
+  width: 10%;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background-color: rgb(0, 0, 0);
+  color: rgb(199, 199, 199);
+  font-size: 1.2rem;
+  border: 2px solid rgb(187, 187, 187);
+}
+
+.App-dark .send-message-button:hover {
+  transition: 200ms;
+  background-color: rgb(34, 34, 34);
+}
+.App-dark .update-username {
+  width: 100%;
+  padding: 0.5rem 0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.App-dark .username-input {
+  width: 35%;
+  height: 2.5rem;
+  background-color: rgba(235, 235, 235, 0.219);
+  border: 2px dashed rgba(255, 255, 255, 0.11);
+  border-radius: 0.5rem;
+  margin: 0rem 0.5rem;
+
+  color: white;
+  font-size: 1.3rem;
+}
+.App-dark .change-username-button {
+  cursor: pointer;
+  width: fit-content;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background-color: rgb(0, 0, 0);
+  color: rgb(199, 199, 199);
+  font-size: 1.2rem;
+  border: 2px solid rgb(187, 187, 187);
+}
+
+.App-dark .change-username-button:hover {
+  transition: 200ms;
+  background-color: rgb(34, 34, 34);
+}
+/*
+
+
+
+LIGHT THEMES
+
+
+
+*/
+
+.App-light .game-chat {
+  height: 30rem;
+  width: 40rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.App-light .chat-log {
+  height: 90%;
+  width: 100%;
+  font-family: "Montserrat";
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.App-light .server-message {
+  background-color: rgba(24, 24, 24, 0.103);
+}
+.App-light .server-message .message-author {
+  color: rgb(34, 34, 34);
+}
+.App-light .chat-message {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+.App-light .message-author {
+  font-size: 1.5rem;
+  color: rgb(44, 44, 44);
+  font-weight: bolder;
+  padding: 0rem 1rem;
+}
+.App-light .message-content {
+  font-size: 1.2rem;
+  overflow-wrap: break-word;
+}
+
+.App-light .compose-message {
+  width: 100%;
+  padding: 0.5rem 0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.App-light .message-input {
+  width: 85%;
+  height: 2.5rem;
+  background-color: rgba(41, 41, 41, 0.219);
+  border: 2px dashed rgba(0, 0, 0, 0.432);
+  border-radius: 0.5rem;
+  margin: 0rem 0.5rem;
+
+  color: white;
+  font-size: 1.3rem;
+}
+.App-light .send-message-button {
+  cursor: pointer;
+  width: 10%;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background-color: rgb(190, 190, 190);
+  color: rgb(36, 36, 36);
+  font-size: 1.2rem;
+  border: 2px solid rgb(26, 26, 26);
+}
+
+.App-light .send-message-button:hover {
+  transition: 200ms;
+  background-color: rgb(141, 141, 141);
+}
+.App-light .update-username {
+  width: 100%;
+  padding: 0.5rem 0rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.App-light .username-input {
+  width: 35%;
+  height: 2.5rem;
+
+  background-color: rgba(41, 41, 41, 0.219);
+  border: 2px dashed rgba(0, 0, 0, 0.432);
+  border-radius: 0.5rem;
+  margin: 0rem 0.5rem;
+
+  font-size: 1.3rem;
+}
+.App-light .change-username-button {
+  cursor: pointer;
+  width: fit-content;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+
+  background-color: rgb(190, 190, 190);
+  color: rgb(36, 36, 36);
+  font-size: 1.2rem;
+  border: 2px solid rgb(26, 26, 26);
+}
+
+.App-light .change-username-button:hover {
+  transition: 200ms;
+  background-color: rgb(141, 141, 141);
+}
