@@ -6,8 +6,72 @@
   align-items: center;
   width: 30rem;
   height: 30rem;
+  margin: 3rem;
 }
 .App-dark .gameboard-cell {
   height: 3rem;
   width: 3rem;
+  border: 3px solid black;
+  border-radius: 0.4rem;
+}
+.App-dark .initial-cell {
+  background-color: rgb(194, 194, 194);
+}
+.App-dark .destroyed-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.App-dark .destroyed-cell img {
+  height: 2.9rem;
+  width: 2.9rem;
+}
+
+.App-dark .ship-cell {
+  background-color: rgb(163, 0, 0);
+}
+
+.App-dark .missed-cell {
+  background-color: rgb(63, 63, 63);
+}
+/*
+
+LIGHT THEME
+
+*/
+.App-light .gameboard {
+  display: grid;
+  grid-template-columns: repeat(10, 3rem);
+  grid-template-rows: repeat(10, 3rem);
+  justify-items: center;
+  align-items: center;
+  width: 30rem;
+  height: 30rem;
+  margin: 3rem;
+}
+.App-light .gameboard-cell {
+  height: 3rem;
+  width: 3rem;
+  border: 3px solid black;
+  border-radius: 0.4rem;
+}
+.App-light .initial-cell {
+  background-color: rgb(194, 194, 194);
+}
+.App-light .destroyed-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.App-light .destroyed-cell img {
+  height: 2.9rem;
+  width: 2.9rem;
+}
+
+.App-light .ship-cell {
+  background-color: rgb(163, 0, 0);
+}
+
+.App-light .missed-cell {
+  background-color: rgb(63, 63, 63);
 }

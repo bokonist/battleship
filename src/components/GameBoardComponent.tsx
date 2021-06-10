@@ -17,32 +17,31 @@ const GameBoardComponent: React.FC<Props> = (props) => {
     <div className="gameboard">
       {gameBoard.map((row, i) => {
         return row.map((cell, j) => {
+          let className: string = "initial-cell gameboard-cell";
+          switch (cell.cellState) {
+            case cellStates.DESTROYED: {
+              className = "destroyed-cell gameboard-cell";
+              break;
+            }
+            case cellStates.MISSED: {
+              className = "missed-cell gameboard-cell";
+              break;
+            }
+            case cellStates.INITIAL: {
+              className = "initial-cell gameboard-cell";
+            }
+          }
+          if (cell.shipID > 0 && cell.cellState !== cellStates.DESTROYED) {
+            className = "ship-cell gameboard-cell";
+          }
           return (
-            <div key={`${i}-${j}`} data-position={`${i}-${j}`}>
-              {cell.shipID > 0 && cell.cellState !== cellStates.DESTROYED ? (
-                <img
-                  alt="inital cell"
-                  src={SHIPCELL}
-                  className="gameboard-cell"
-                ></img>
-              ) : cell.cellState === cellStates.INITIAL ? (
-                <img
-                  alt="inital cell"
-                  src={INITALCELL}
-                  className="gameboard-cell"
-                ></img>
-              ) : cell.cellState === cellStates.MISSED ? (
-                <img
-                  alt="inital cell"
-                  src={MISSEDCELL}
-                  className="gameboard-cell"
-                ></img>
-              ) : cell.cellState === cellStates.DESTROYED ? (
-                <img
-                  alt="inital cell"
-                  src={DESTROYEDCELL}
-                  className="gameboard-cell"
-                ></img>
+            <div
+              key={`${i}-${j}`}
+              data-position={`${i}-${j}`}
+              className={className}
+            >
+              {className === "destroyed-cell gameboard-cell" ? (
+                <img src={DESTROYEDCELL} alt="destroyed cell"></img>
               ) : null}
             </div>
           );
