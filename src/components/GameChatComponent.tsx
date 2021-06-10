@@ -16,9 +16,15 @@ const GameChatComponent: React.FC<Props> = (props) => {
 
   useEffect(() => {
     socket.on("chat-message", (message) => {
+      if (messageLog.length > 8) {
+        messageLog.shift();
+      }
       setMessageLog([...messageLog, message]);
     });
     socket.on("server-message", (message) => {
+      if (messageLog.length > 8) {
+        messageLog.shift();
+      }
       setMessageLog([...messageLog, message]);
     });
   }, [messageLog]);
@@ -44,13 +50,18 @@ const GameChatComponent: React.FC<Props> = (props) => {
     }
   };
   return (
-    <div>
+    <div className="game-chat">
       <div className="chat-log">
         {messageLog.map((message, index) => {
           return (
-            <div key={index}>
-              <div className="message-author">{message.author}</div>
-              <div className="message-content">{message.message}</div>
+            <div
+              key={index}
+              className={
+                message.author === "Server" ? "server-message" : "user-message"
+              }
+            >
+              <span className="message-author">{message.author}: </span>
+              <span className="message-content">{message.message}</span>
             </div>
           );
         })}
