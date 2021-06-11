@@ -1,3 +1,19 @@
+.board-container {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.board-title {
+  font-family: "Signika", monospace;
+  font-size: 2rem;
+}
+
+.App-dark .board-title {
+  color: rgb(201, 201, 201);
+}
+
 .App-dark .gameboard {
   display: grid;
   grid-template-columns: repeat(10, 3rem);

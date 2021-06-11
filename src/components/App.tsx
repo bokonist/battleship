@@ -53,16 +53,23 @@ function App() {
       <div className={"App" + (theme ? "-dark" : "-light")}>
         <div className="main-title-container">BATTLESHIP</div>
         <div className="main-body-container">
-          <GameBoardComponent boardString={boardString}></GameBoardComponent>
+          <div className="board-container">
+            <div className="board-title">{`${userName}'s Board`}</div>
+
+            <GameBoardComponent boardString={boardString}></GameBoardComponent>
+          </div>
           <GameChatComponent
             userName={userName}
             updateUserName={(newUserName) => {
               setUserName(newUserName);
             }}
           ></GameChatComponent>
-          <EnemyBoardComponent
-            enemyBoardString={enemyBoardString}
-          ></EnemyBoardComponent>
+          <div className="board-container">
+            <div className="board-title">{`Enemy's Board`}</div>
+            <EnemyBoardComponent
+              enemyBoardString={enemyBoardString}
+            ></EnemyBoardComponent>
+          </div>
         </div>
         <div className="attributions">
           Icons made by{" "}
