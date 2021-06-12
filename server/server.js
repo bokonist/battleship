@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 const Express = require("express");
 const Path = require("path");
 const Http = require("http");
@@ -24,12 +25,105 @@ server.listen(PORT, () => {
 });
 
 //handle a socket connection req from client
-
+const connectionPool = [
+  /* {
+    id: uuidv4(),
+    private: fasle,
+    filled: false,
+    players: [],
+    currentPlayer: null
+  },*/
+];
+const enemy = {
+  //json object/map for faster lookup of corresponding enemy player
+};
 const connections = [null, null];
 let currentPlayer = null;
 io.on("connection", (socket) => {
   let heartBeatTimeStamp = Date.now();
-  console.log(socket.id);
+  socket.on("join-room", (roomID) => {
+    //searching for a specific room
+    let room = null;
+    for (const connection in connectionPool) {
+      if (connection.id === roomID) {
+        room = connection;
+        break;
+      }
+    }
+    if (!room) {
+      io.to(socket.id).emit(
+        "server-message",
+        `A room with this ID was not found. Please double check`
+      );
+    } else {
+      room.players.push(socket.id);
+      room.filled = true;
+      room.currentPlayer = room.players[0];
+      io.to(room.players[0]).emit(
+        "game-details",
+        room.players[1], //enemy player's socket id
+        1, //player number
+        room.id // room id
+      );
+
+      io.to(room.players[1]).emit("game-details", room.players[0], 2, room.id);
+    }
+  });
+  socket.on("find-room", () => {
+    //client want to join a random public game
+    let roomFound = false;
+    for (const connection in connectionPool) {
+      if (connection.players.length === 1 && !connection.private) {
+        roomFound = true;
+        connection.players.push(socket.id);
+        io.to(connection.players[0]).emit(
+          "game-details",
+          connection.players[1], //enemy player's socket id
+          1, //player number
+          connection.id // room id
+        );
+
+        io.to(connection.players[1]).emit(
+          "game-details",
+          connection.players[0],
+          2,
+          connection.id
+        );
+        break;
+      }
+      connection.filled = true;
+    }
+    if (!roomFound) {
+      let connectionObj = {
+        id: uuidv4(),
+        filled: false,
+        private: false,
+        players: [socket.id],
+        currentPlayer: socket.id,
+      };
+      connectionPool.push(connectionObj);
+      io.to(socket.id).emit(
+        "server-message",
+        `CODE:${connectionObj.id} Send this to a friend and ask to join, or wait for another random player!`
+      );
+    }
+  });
+  socket.on("make-room", () => {
+    //client want to make a private room
+    let connectionObj = {
+      id: uuidv4(),
+      filled: false,
+      private: true,
+      players: [socket.id],
+      currentPlayer: socket.id,
+    };
+    connectionPool.push(connectionObj);
+    io.to(socket.id).emit(
+      "server-message",
+      `CODE:${connectionObj.id} Send this to a friend and ask to join!`
+    );
+  });
+  /*console.log(socket.id);
   let playerIndex = -1;
   for (const i in connections) {
     if (connections[i] === null) {
@@ -50,7 +144,7 @@ io.on("connection", (socket) => {
     console.log(`Player ${Number(playerIndex) + 1} has connected`);
   else {
     return;
-  }
+  }*/
   socket.on("sendAttack", (position) => {
     console.log(socket.id, "just sent an attack", position);
     const enemyPlayerID =
@@ -81,7 +175,8 @@ io.on("connection", (socket) => {
     //console.log(socket.id, " is alive");
   });
   let hearBeatCheck = setInterval(() => {
-    if (Date.now() > heartBeatTimeStamp + 5000) {
+    //console.log("checking heartbeat for", socket.id);
+    if (Date.now() > heartBeatTimeStamp + 10000) {
       //no activity for the last 5 seconds
       console.log(`${socket.id} did not give a heartbeat, disconnecting `);
       socket.disconnect();
