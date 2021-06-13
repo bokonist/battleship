@@ -24,8 +24,10 @@
   color: #a9a9a9;
 }
 .App-dark .main-body-container {
-  height: 85vh;
+  height: auto;
+  min-height: 85vh;
   width: 100%;
+  min-width: 100vw;
   color: white;
 
   display: flex;
@@ -76,4 +78,22 @@ LIGHT THEMES
 .attributions {
   display: none;
   background-color: transparent;
+}
+
+@media all and (min-width: 768px) and (max-width: 1024px) {
+  .main-body-container {
+    flex-direction: column;
+  }
+}
+
+@media all and (min-width: 480px) and (max-width: 768px) {
+  .main-body-container {
+    flex-direction: column;
+  }
+}
+
+@media all and (max-width: 480px) {
+  .main-body-container {
+    flex-direction: column;
+  }
 }
